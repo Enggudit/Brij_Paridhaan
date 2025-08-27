@@ -12,6 +12,8 @@ import Footer from './components/footer'
 import Feedform from './pages/feedform'
 import Aboutpage from './pages/abouts';
 import Products from './pages/products';
+import Loginpage from './pages/loginpage';
+import Loginhome from './pages/login-home';
 
 function App() {
     const router = createBrowserRouter([
@@ -65,6 +67,22 @@ function App() {
         </div>
       ),
     },
+    {
+      path: "/login-page/admin",
+      element: (
+        <div className='overflow-x-hidden'>
+          <Loginpage />
+        </div>
+      ),
+    },
+    {
+      path: "/login-home",
+      element: (
+        <div className='overflow-x-hidden'>
+          <Loginhome />
+        </div>
+      ),
+    }
    
   ]);
 
