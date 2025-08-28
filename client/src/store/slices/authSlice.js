@@ -11,34 +11,6 @@ const authSlice = createSlice({
         isAuthenticated : false,
     },
     reducers :{
-        registerRequest(State){
-            State.loading = true;
-            State.error = null;
-            State.message = null;
-        },
-        registerSuccess(State, action){
-            State.loading = false;
-            State.message = action.payload.message;
-        },
-        registerFail(State, action){
-            State.loading = false;
-            State.error = action.payload;
-        },
-        otpVerificationRequest(State){
-            State.loading = true;
-            State.error = null;
-            State.message = null;
-        },
-        otpVerificationSuccess(State, action){
-            State.loading = false;
-            State.message = action.payload.message;
-            State.isAuthenticated = true;
-            State.user = action.payload.user;
-        },
-        otpVerificationFail(State, action){
-            State.loading = false;
-            State.error = action.payload;
-        },
         loginSuccess(State, action){
             State.loading = false;
             State.isAuthenticated = true;
@@ -87,19 +59,6 @@ const authSlice = createSlice({
             State.isAuthenticated = false;
             State.user = null;
         },
-        forgotPasswordRequest(State){
-            State.loading = true;
-            State.error = null;
-            State.message = null;
-        },
-        forgotPasswordSuccess(State, action){
-            State.loading = false;
-            State.message = action.payload;
-        },
-        forgotPasswordFail(State, action){
-            State.loading = false;
-            State.error = action.payload;
-        },
         resetPasswordRequest(State){
             State.loading = true;
             State.error = null;
@@ -142,36 +101,7 @@ export const resetAuthSlice =()=> (dispatch) =>{
     dispatch(authSlice.actions.resetAuthSlice());
 }
 
-export const register = (data) => async(dispatch) => {
-    try {
-        dispatch(authSlice.actions.registerRequest());
-        const res = await axios.post("http://localhost:4000/api/v1/auth/register", data, {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        dispatch(authSlice.actions.registerSuccess(res.data));
 
-    } catch (error) {
-        dispatch(authSlice.actions.registerFail(error.response.data.message));
-    }
-};
-
-export const otpVerification = (email, otp) => async(dispatch) =>{
-    console.log(email, otp)
-    dispatch(authSlice.actions.otpVerificationRequest());
-    await axios.post("http://localhost:4000/api/v1/auth/verify-otp", {email, otp}, {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }).then(res =>{
-        dispatch(authSlice.actions.otpVerificationSuccess(res.data));
-    }).catch(error =>{
-        dispatch(authSlice.actions.otpVerificationFail(error.response.data.message));
-    })
-};
 
 export const login = (data) => async(dispatch) =>{
     dispatch(authSlice.actions.loginRequest());
@@ -208,22 +138,6 @@ export const getUser = () => async(dispatch) =>{
         dispatch(authSlice.actions.resetAuthSlice());
     }).catch(error =>{
         dispatch(authSlice.actions.getUserFail(error.response.data.message));
-    })
-};
-
-export const forgotPassword = (email) => async(dispatch) =>{
-    
-    dispatch(authSlice.actions.forgotPasswordRequest());
-    
-    await axios.post("http://localhost:4000/api/v1/auth/password/forgot",{email}, {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }).then(res =>{
-        dispatch(authSlice.actions.forgotPasswordSuccess(res.data.message));
-    }).catch(error =>{
-        dispatch(authSlice.actions.forgotPasswordFail(error.response.data.message));
     })
 };
 

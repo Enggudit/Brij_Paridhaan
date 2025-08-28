@@ -15,26 +15,6 @@ const LiquidSlider = () => {
     (state) => state.auth
   );
 
-  // Load background scripts (kinetic slider effect)
-  useEffect(() => {
-    const loadScripts = async () => {
-      const scriptPaths = [
-        "/js/TweenMax.min.js",
-        "/js/pixi.min.js",
-        "/js/rgbKineticSlider.js",
-        "/js/script.js",
-      ];
-      for (let path of scriptPaths) {
-        const script = document.createElement("script");
-        script.src = path;
-        script.async = true;
-        document.body.appendChild(script);
-        await new Promise((resolve) => (script.onload = resolve));
-      }
-    };
-    loadScripts();
-  }, []);
-
   // Handle login submit
   const handleLogin = (e) => {
     e.preventDefault();
@@ -46,20 +26,21 @@ const LiquidSlider = () => {
 
   // Handle login result
   useEffect(() => {
-    if (isAuthenticated) {
-      toast.success("Login successful 🎉");
-      navigate("/login-home");
-      dispatch(resetAuthSlice());
+  if (isAuthenticated) {
+    toast.success("Login successful 🎉");
+    navigate("/login-home");
+    setTimeout(() => dispatch(resetAuthSlice()), 100);
+  }
+  if (error) {
+    if (Array.isArray(error)) {
+      error.forEach((errMsg) => toast.error(errMsg));
+    } else {
+      toast.error(error);
     }
-    if (error) {
-      if (Array.isArray(error)) {
-        error.forEach((errMsg) => toast.error(errMsg));
-      } else {
-        toast.error(error);
-      }
-      dispatch(resetAuthSlice());
-    }
-  }, [isAuthenticated, error, dispatch, navigate]);
+    setTimeout(() => dispatch(resetAuthSlice()), 100);
+  }
+}, [isAuthenticated, error, dispatch, navigate]);
+
 
   return (
     <div className="flex justify-center items-center h-screen relative overflow-hidden">

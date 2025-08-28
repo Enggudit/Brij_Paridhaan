@@ -13,8 +13,7 @@ function loginhome() {
     
 
   return (  
-    <div className='bg-zinc-500 w-sceen h-screen'>
-      <LoginHomeNav/>
+    <div className='bg-zinc-500 w-screen h-screen'>
         <div className=''>
             <h1 className='text-3xl text-white font-bold'>Welcome to the Login Home Page</h1>
         </div>

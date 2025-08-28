@@ -1,5 +1,8 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import Marquee from './components/marquee'
 import Nav from './components/nav'
 import Home from './components/home'
@@ -16,7 +19,7 @@ import Loginpage from './pages/loginpage';
 import Loginhome from './pages/login-home';
 
 function App() {
-    const router = createBrowserRouter([
+  const router = createBrowserRouter([
     {
       path: "",
       element: (
@@ -83,10 +86,24 @@ function App() {
         </div>
       ),
     }
-   
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </>
+  );
 }
 
 export default App
